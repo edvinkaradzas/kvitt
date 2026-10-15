@@ -30,8 +30,8 @@ export class App {
    */
   listen(port) {
     this.#app.listen(port, () => {
-      console.log(`Server is running on port ${port}...`)
-      console.log('CTRL+C to terminate the server.')
+      console.log(`Server is running at http://localhost:${port}`)
+      console.log('\nCTRL+C to terminate the server.')
     })
   }
 }
