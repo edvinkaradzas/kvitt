@@ -1,31 +1,43 @@
 {
-  "name": "js-cli-template",
-  "version": "1.0.0",
-  "description": "1DV610 - JavaScript CLI Template / Boilerplate",
+  "name": "kvitt",
+  "version": "0.1.0",
+  "description": "Split shared expenses in a group and see who should pay whom.",
+  "keywords": [
+    "expenses",
+    "split",
+    "settlement",
+    "web-app"
+  ],
   "type": "module",
-  "main": "src/app.js",
-  "bin": {
-    "js-cli-template": "src/app.js"
-  },
+  "main": "src/server.js",
   "engines": {
     "node": ">=24.12.0"
   },
   "scripts": {
-    "start": "node src/app.js",
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
     "test": "vitest",
-    "test:run": "vitest run",
+    "test:run": "vitest run --passWithNoTests",
     "test:match": "vitest run -t",
     "lint": "eslint ./src --cache",
     "lint:fix": "eslint ./src --cache --fix",
     "format": "prettier --write ./src",
     "format:check": "prettier ./src --check"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edvinkaradzas/kvitt.git"
+  },
+  "bugs": {
+    "url": "https://github.com/edvinkaradzas/kvitt/issues"
+  },
+  "homepage": "https://github.com/edvinkaradzas/kvitt#readme",
+  "author": "Edvin Karadza",
   "contributors": [
-    "1dv610 Organization",
-    "YOUR NAME <YOUR EMAIL>"
+    "1dv610 Organization"
   ],
   "license": "Unlicense",
-  "private": false,
+  "private": true,
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@lnu/eslint-config": "^2.0.13",
@@ -39,5 +51,10 @@
     "globals": "^17.12.0",
     "prettier": "^3.9.6",
     "vitest": "^5.0.0"
+  },
+  "dependencies": {
+    "ejs": "^7.0.1",
+    "express": "^5.3.0",
+    "split-ledger": "^1.0.0"
   }
 }

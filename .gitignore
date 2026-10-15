@@ -151,6 +151,9 @@ dist/
 tmp/
 temp/
 
+### Claude Code ###
+.claude/
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/settings.json
