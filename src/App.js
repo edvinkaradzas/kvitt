@@ -1,4 +1,5 @@
 import express from 'express'
+import { join } from 'node:path'
 
 /**
  * The web application. Owns the Express instance and decides which URL gives which response.
@@ -11,7 +12,17 @@ export class App {
    */
   constructor() {
     this.#app = express()
+    this.#configureViews()
     this.#registerRoutes()
+  }
+
+  /**
+   * Sets EJS as the template engine. The path is resolved from this file, not from where Node was
+   * started, so the views are found no matter which directory the app is launched from.
+   */
+  #configureViews() {
+    this.#app.set('view engine', 'ejs')
+    this.#app.set('views', join(import.meta.dirname, 'views'))
   }
 
   /**
