@@ -30,7 +30,7 @@ export class App {
    */
   #registerRoutes() {
     this.#app.get('/', (_req, res) => {
-      res.send('Hello World!')
+      res.render('start')
     })
   }
 
