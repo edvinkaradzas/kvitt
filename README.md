@@ -26,6 +26,12 @@ payments.
 | K9 | The user can register a payment that has already been made |
 | K10 | The user gets a field-specific error message when a form is filled in incorrectly |
 
+## Try it
+
+https://kvitt-qpm2.onrender.com
+
+The app runs on a free plan and sleeps after 15 minutes without visitors. The first visit after that can take up to a minute.
+
 ## Run locally
 
 ```bash
