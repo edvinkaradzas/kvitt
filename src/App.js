@@ -1,5 +1,6 @@
 import express from 'express'
 import { join } from 'node:path'
+import { GroupNotFoundError } from './GroupNotFoundError.js'
 
 /** @typedef {import('./GroupController.js').GroupController} GroupController */
 
@@ -21,6 +22,7 @@ export class App {
     this.#configureViews()
     this.#configureMiddleware()
     this.#registerRoutes()
+    this.#handleErrors()
   }
 
   /**
@@ -48,6 +50,20 @@ export class App {
     })
     this.#app.post('/groups', (req, res) => this.#controller.createGroup(req, res))
     this.#app.get('/groups/:id', (req, res) => this.#controller.showGroup(req, res))
+  }
+
+  /**
+   * Turns a missing group into a 404 page and any other error into a short 500 message, so that
+   * users never see stack traces. Registered last, since Express looks forward for error handlers.
+   */
+  #handleErrors() {
+    this.#app.use((error, _req, res, _next) => {
+      if (error instanceof GroupNotFoundError) {
+        res.status(404).render('not-found')
+      } else {
+        res.status(500).send('Något gick fel')
+      }
+    })
   }
 
   /**

@@ -1,3 +1,5 @@
+import { GroupNotFoundError } from './GroupNotFoundError.js'
+
 /** @typedef {import('split-ledger').ExpenseGroup} ExpenseGroup */
 
 /**
@@ -24,9 +26,16 @@ export class GroupRepository {
    * Looks up a group by its id.
    *
    * @param {string} id - The id that add() returned.
-   * @returns {ExpenseGroup|undefined} The group, or undefined if no group has that id.
+   * @returns {ExpenseGroup} The group. Never undefined, so callers do not have to check.
+   * @throws {GroupNotFoundError} If no group has that id.
    */
   findById(id) {
-    return this.#groups.get(id)
+    const group = this.#groups.get(id)
+
+    if (!group) {
+      throw new GroupNotFoundError(id)
+    }
+
+    return group
   }
 }
