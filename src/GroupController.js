@@ -63,4 +63,40 @@ export class GroupController {
 
     res.redirect(`/groups/${id}`)
   }
+
+  /**
+   * Shows the form for a new expense, with the members to choose from.
+   *
+   * @param {Request} req - The request, with the group id in its params.
+   * @param {Response} res - The response.
+   */
+  showExpenseForm(req, res) {
+    const id = req.params.id
+    const group = this.#repository.findById(id)
+
+    res.render('expense-form', { id, name: group.getName(), members: group.getMembers() })
+  }
+
+  /**
+   * Adds an expense split equally between the checked members. Form values arrive as text, and a
+   * single checked box arrives as a string rather than an array, so both are converted first.
+   *
+   * @param {Request} req - The request, with the group id in its params and the expense in its body.
+   * @param {Response} res - The response.
+   */
+  addExpense(req, res) {
+    const id = req.params.id
+    const group = this.#repository.findById(id)
+    const amount = Number(req.body.amount)
+    const participants = [req.body.participants].flat()
+
+    group.addExpense({
+      description: req.body.description,
+      paidBy: req.body.paidBy,
+      amount,
+      participants,
+    })
+
+    res.redirect(`/groups/${id}`)
+  }
 }

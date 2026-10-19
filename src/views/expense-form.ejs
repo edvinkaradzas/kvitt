@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="sv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nytt utlägg – <%= name %> – Kvitt</title>
+  </head>
+  <body>
+    <a href="/groups/<%= id %>">Tillbaka till <%= name %></a>
+    <h1>Nytt utlägg</h1>
+
+    <form method="post" action="/groups/<%= id %>/expenses">
+      <p>
+        <label for="description">Vad</label>
+        <input id="description" name="description" />
+      </p>
+
+      <p>
+        <label for="amount">Belopp (kr)</label>
+        <input id="amount" name="amount" inputmode="decimal" />
+      </p>
+
+      <p>
+        <label for="paid-by">Vem betalade</label>
+        <select id="paid-by" name="paidBy">
+          <% for (const member of members) { %>
+            <option><%= member %></option>
+          <% } %>
+        </select>
+      </p>
+
+      <fieldset>
+        <legend>Delas mellan</legend>
+        <% for (const member of members) { %>
+          <label>
+            <input type="checkbox" name="participants" value="<%= member %>" checked />
+            <%= member %>
+          </label>
+        <% } %>
+      </fieldset>
+
+      <button>Lägg till utlägg</button>
+    </form>
+  </body>
+</html>
