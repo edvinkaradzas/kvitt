@@ -30,11 +30,31 @@
       </p>
 
       <fieldset>
-        <legend>Delas mellan</legend>
+        <legend>
+          <label>
+            <input type="radio" name="split" value="equal" checked />
+            Dela lika mellan
+          </label>
+        </legend>
         <% for (const member of members) { %>
           <label>
             <input type="checkbox" name="participants" value="<%= member %>" checked />
             <%= member %>
+          </label>
+        <% } %>
+      </fieldset>
+
+      <fieldset>
+        <legend>
+          <label>
+            <input type="radio" name="split" value="exact" />
+            Exakta belopp (lämna tomt för den som inte är med)
+          </label>
+        </legend>
+        <% for (const member of members) { %>
+          <label>
+            <%= member %>
+            <input name="exactAmounts[<%= member %>]" inputmode="decimal" />
           </label>
         <% } %>
       </fieldset>

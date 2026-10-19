@@ -35,10 +35,12 @@ export class App {
   }
 
   /**
-   * Turns submitted form data into req.body. Must run before the routes, which read from it.
+   * Turns submitted form data into req.body. Extended parsing builds objects from bracketed field
+   * names, so exactAmounts[Anna] becomes { exactAmounts: { Anna: ... } }. Must run before the
+   * routes, which read from req.body.
    */
   #configureMiddleware() {
-    this.#app.use(express.urlencoded({ extended: false }))
+    this.#app.use(express.urlencoded({ extended: true }))
   }
 
   /**

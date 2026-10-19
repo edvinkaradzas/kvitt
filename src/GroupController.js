@@ -78,8 +78,8 @@ export class GroupController {
   }
 
   /**
-   * Adds an expense split equally between the checked members. Form values arrive as text, and a
-   * single checked box arrives as a string rather than an array, so both are converted first.
+   * Adds an expense, split either equally or by exact amounts depending on what the user chose. Form
+   * values arrive as text, so the amount is converted to a number first.
    *
    * @param {Request} req - The request, with the group id in its params and the expense in its body.
    * @param {Response} res - The response.
@@ -88,15 +88,48 @@ export class GroupController {
     const id = req.params.id
     const group = this.#repository.findById(id)
     const amount = Number(req.body.amount)
-    const participants = [req.body.participants].flat()
 
     group.addExpense({
       description: req.body.description,
       paidBy: req.body.paidBy,
       amount,
-      participants,
+      ...this.#splitFrom(req.body),
     })
 
     res.redirect(`/groups/${id}`)
+  }
+
+  /**
+   * Reads how the expense should be split. The form always sends both the checkboxes and the amount
+   * fields; the chosen radio button decides which of them counts.
+   *
+   * @param {object} body - The submitted form.
+   * @returns {object} Either { participants } or { exactAmounts }, ready to spread into addExpense.
+   */
+  #splitFrom(body) {
+    if (body.split === 'exact') {
+      return { exactAmounts: this.#exactAmountsFrom(body.exactAmounts) }
+    }
+
+    return { participants: [body.participants].flat() }
+  }
+
+  /**
+   * Turns the amount fields into numbers. A field left empty means the member is not part of the
+   * expense, so it is left out.
+   *
+   * @param {object} amounts - The amount per member, as text from the form.
+   * @returns {object} The amount per member in kronor, for the members who have one.
+   */
+  #exactAmountsFrom(amounts) {
+    const exactAmounts = {}
+
+    for (const [member, amount] of Object.entries(amounts)) {
+      if (amount !== '') {
+        exactAmounts[member] = Number(amount)
+      }
+    }
+
+    return exactAmounts
   }
 }
