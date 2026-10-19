@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="sv">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Kvitt</title>
-</head>
-<body>
-  <h1>Kvitt</h1>
-  <p>Välkommen till Kvitt!</p>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kvitt</title>
+  </head>
+  <body>
+    <h1>Kvitt</h1>
+    <p>Välkommen till Kvitt!</p>
+    <form method="post" action="/groups">
+      <label for="name">Gruppens namn</label>
+      <input id="name" name="name" />
+      <button>Skapa grupp</button>
+    </form>
+  </body>
 </html>
