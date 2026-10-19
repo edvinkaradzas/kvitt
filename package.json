@@ -55,6 +55,6 @@
   "dependencies": {
     "ejs": "^7.0.1",
     "express": "^5.3.0",
-    "split-ledger": "^1.0.0"
+    "split-ledger": "^1.1.0"
   }
 }
