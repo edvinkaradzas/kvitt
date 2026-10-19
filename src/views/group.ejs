@@ -8,5 +8,24 @@
   <body>
     <a href="/">Till startsidan</a>
     <h1><%= name %></h1>
+
+    <section>
+      <h2>Medlemmar</h2>
+      <% if (members.length === 0) { %>
+        <p>Inga medlemmar än.</p>
+      <% } else { %>
+        <ul>
+          <% for (const member of members) { %>
+            <li><%= member %></li>
+          <% } %>
+        </ul>
+      <% } %>
+
+      <form method="post" action="/groups/<%= id %>/members">
+        <label for="member-name">Namn</label>
+        <input id="member-name" name="name" />
+        <button>Lägg till medlem</button>
+      </form>
+    </section>
   </body>
 </html>

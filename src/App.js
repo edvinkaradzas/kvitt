@@ -50,6 +50,7 @@ export class App {
     })
     this.#app.post('/groups', (req, res) => this.#controller.createGroup(req, res))
     this.#app.get('/groups/:id', (req, res) => this.#controller.showGroup(req, res))
+    this.#app.post('/groups/:id/members', (req, res) => this.#controller.addMember(req, res))
   }
 
   /**

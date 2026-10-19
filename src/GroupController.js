@@ -36,11 +36,6 @@ export class GroupController {
   }
 
   /**
-   *
-   * @param {*} req
-   * @param {*} res
-   */
-  /**
    * Shows the page for one group. The view gets plain values, never the group object itself.
    *
    * @param {Request} req - The request, with the group id in its params.
@@ -49,6 +44,23 @@ export class GroupController {
   showGroup(req, res) {
     const id = req.params.id
     const group = this.#repository.findById(id)
-    res.render('group', { name: group.getName() })
+
+    res.render('group', { id, name: group.getName(), members: group.getMembers() })
+  }
+
+  /**
+   * Adds a member to a group and goes back to the group page. The group is changed in place, so it
+   * does not have to be stored again.
+   *
+   * @param {Request} req - The request, with the group id in its params and the name in its body.
+   * @param {Response} res - The response.
+   */
+  addMember(req, res) {
+    const id = req.params.id
+    const group = this.#repository.findById(id)
+    const name = req.body.name
+    group.addMember(name)
+
+    res.redirect(`/groups/${id}`)
   }
 }
