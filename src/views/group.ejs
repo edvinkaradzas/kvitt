@@ -9,7 +9,35 @@
     <a href="/">Till startsidan</a>
     <h1><%= name %></h1>
 
-    <a href="/groups/<%= id %>/expenses/new">Nytt utlägg</a>
+    <section>
+      <h2>Utlägg</h2>
+      <% if (expenses.length === 0) { %>
+        <p>Inga utlägg än.</p>
+      <% } else { %>
+        <table>
+          <thead>
+            <tr>
+              <th>Vad</th>
+              <th>Belopp</th>
+              <th>Betalt av</th>
+              <th>Delas av</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for (const expense of expenses) { %>
+              <tr>
+                <td><%= expense.description %></td>
+                <td><%= expense.amount %></td>
+                <td><%= expense.paidBy %></td>
+                <td><%= expense.participants %></td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      <% } %>
+
+      <a href="/groups/<%= id %>/expenses/new">Nytt utlägg</a>
+    </section>
 
     <section>
       <h2>Medlemmar</h2>

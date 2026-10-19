@@ -1,6 +1,7 @@
 import { ExpenseGroup } from 'split-ledger'
 
 /** @typedef {import('./GroupRepository.js').GroupRepository} GroupRepository */
+/** @typedef {import('./GroupPresenter.js').GroupPresenter} GroupPresenter */
 /** @typedef {import('express').Request} Request */
 /** @typedef {import('express').Response} Response */
 
@@ -10,14 +11,17 @@ import { ExpenseGroup } from 'split-ledger'
  */
 export class GroupController {
   #repository
+  #presenter
 
   /**
    * Creates a controller that stores and finds groups through the given repository.
    *
    * @param {GroupRepository} repository - Where the groups are kept.
+   * @param {GroupPresenter} presenter - Turns group data into text for the views.
    */
-  constructor(repository) {
+  constructor(repository, presenter) {
     this.#repository = repository
+    this.#presenter = presenter
   }
 
   /**
@@ -45,7 +49,12 @@ export class GroupController {
     const id = req.params.id
     const group = this.#repository.findById(id)
 
-    res.render('group', { id, name: group.getName(), members: group.getMembers() })
+    res.render('group', {
+      id,
+      name: group.getName(),
+      members: group.getMembers(),
+      expenses: this.#presenter.expensesOf(group),
+    })
   }
 
   /**
