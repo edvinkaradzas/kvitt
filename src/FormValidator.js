@@ -25,6 +25,21 @@ export class FormValidator {
   }
 
   /**
+   * Checks the form that adds a member to a group.
+   *
+   * @param {object} form - The submitted form.
+   * @returns {object} One Swedish message per invalid field. Empty when the form is valid.
+   */
+  validateMember(form) {
+    const validation = new Validation()
+    const name = new Field('name')
+    name.addRule(new RequiredRule('Medlemmen måste ha ett namn.'))
+    validation.addField(name)
+
+    return this.#errorsFrom(validation.validate(form))
+  }
+
+  /**
    * Translates form-validation's result into Kvitt's own shape. Keeps only the first message per
    * field, since a field can break more than one rule at once.
    *

@@ -61,6 +61,19 @@ export class GroupController {
     const id = req.params.id
     const group = this.#repository.findById(id)
 
+    this.#renderGroup(res, id, group)
+  }
+
+  /**
+   * Renders the group page. Shared by showGroup and by every form on the page that has to be shown
+   * again with an error, so the page's data is gathered in one place.
+   *
+   * @param {Response} res - The response.
+   * @param {string} id - The group id.
+   * @param {object} group - The group to show.
+   * @param {object} [errors] - Field errors from FormValidator, if a form on the page was invalid.
+   */
+  #renderGroup(res, id, group, errors = {}) {
     res.render('group', {
       id,
       name: group.getName(),
@@ -68,6 +81,7 @@ export class GroupController {
       expenses: this.#presenter.expensesOf(group),
       balances: this.#presenter.balancesOf(group),
       transfers: this.#presenter.transfersOf(group),
+      errors,
     })
   }
 
