@@ -30,12 +30,19 @@
       </p>
 
       <fieldset>
-        <legend>
-          <label>
-            <input type="radio" name="split" value="equal" checked />
-            Dela lika mellan
-          </label>
-        </legend>
+        <legend>Hur ska utlägget delas? Välj ett av två sätt.</legend>
+        <label>
+          <input type="radio" name="split" value="equal" checked />
+          Alternativ 1: Lika mellan de som kryssas i
+        </label>
+        <label>
+          <input type="radio" name="split" value="exact" />
+          Alternativ 2: Ett exakt belopp per person
+        </label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Alternativ 1: Vilka delar lika?</legend>
         <% for (const member of members) { %>
           <label>
             <input type="checkbox" name="participants" value="<%= member %>" checked />
@@ -45,12 +52,8 @@
       </fieldset>
 
       <fieldset>
-        <legend>
-          <label>
-            <input type="radio" name="split" value="exact" />
-            Exakta belopp (lämna tomt för den som inte är med)
-          </label>
-        </legend>
+        <legend>Alternativ 2: Hur mycket står var och en för?</legend>
+        <p>Beloppen ska tillsammans bli hela summan. Lämna tomt för den som inte är med.</p>
         <% for (const member of members) { %>
           <label>
             <%= member %>
@@ -58,6 +61,10 @@
           </label>
         <% } %>
       </fieldset>
+
+      <p>
+        Ska några dela lika och andra betala olika belopp? Lägg in det som två utlägg.
+      </p>
 
       <button>Lägg till utlägg</button>
     </form>
