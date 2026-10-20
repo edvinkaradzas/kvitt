@@ -63,5 +63,22 @@
         <button>Lägg till medlem</button>
       </form>
     </section>
+
+    <% if (balances.length > 0) { %>
+      <section>
+        <h2>Saldon</h2>
+        <table>
+          <tbody>
+            <% for (const balance of balances) { %>
+              <tr>
+                <td><%= balance.name %></td>
+                <td><%= balance.status %></td>
+                <td><%= balance.amount %></td>
+              </tr>
+            <% } %>
+          </tbody>
+        </table>
+      </section>
+    <% } %>
   </body>
 </html>

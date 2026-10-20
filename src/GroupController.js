@@ -54,6 +54,7 @@ export class GroupController {
       name: group.getName(),
       members: group.getMembers(),
       expenses: this.#presenter.expensesOf(group),
+      balances: this.#presenter.balancesOf(group),
     })
   }
 
@@ -142,6 +143,13 @@ export class GroupController {
     return exactAmounts
   }
 
+  /**
+   * Deletes an expense that was entered by mistake. The expense id comes from the URL as text, but
+   * split-ledger compares ids as numbers, so it is converted first.
+   *
+   * @param {Request} req - The request, with the group id and the expense id in its params.
+   * @param {Response} res - The response.
+   */
   deleteExpense(req, res) {
     const id = req.params.id
     const group = this.#repository.findById(id)
