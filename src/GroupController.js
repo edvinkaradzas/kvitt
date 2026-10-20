@@ -2,36 +2,48 @@ import { ExpenseGroup } from 'split-ledger'
 
 /** @typedef {import('./GroupRepository.js').GroupRepository} GroupRepository */
 /** @typedef {import('./GroupPresenter.js').GroupPresenter} GroupPresenter */
+/** @typedef {import('./FormValidator.js').FormValidator} FormValidator */
 /** @typedef {import('express').Request} Request */
 /** @typedef {import('express').Response} Response */
 
 /**
- * Handles the HTTP requests about groups. Passes the work on to split-ledger and the repository and
- * decides which page the user sees next.
+ * Handles the HTTP requests about groups. Checks the forms, passes the work on to split-ledger and
+ * the repository, and decides which page the user sees next.
  */
 export class GroupController {
   #repository
   #presenter
+  #validator
 
   /**
-   * Creates a controller that stores and finds groups through the given repository.
+   * Creates a controller. Everything it depends on is passed in, so that server.js alone decides
+   * how the application is put together.
    *
    * @param {GroupRepository} repository - Where the groups are kept.
    * @param {GroupPresenter} presenter - Turns group data into text for the views.
+   * @param {FormValidator} validator - Checks the forms before anything is stored.
    */
-  constructor(repository, presenter) {
+  constructor(repository, presenter, validator) {
     this.#repository = repository
     this.#presenter = presenter
+    this.#validator = validator
   }
 
   /**
    * Creates a group from the submitted form and redirects to it, so that reloading the page does not
-   * create the group a second time.
+   * create the group a second time. An invalid form is shown again with the error, and status 400.
    *
    * @param {Request} req - The request, with the group name in its body.
    * @param {Response} res - The response.
    */
   createGroup(req, res) {
+    const errors = this.#validator.validateGroup(req.body)
+
+    if (this.#hasErrors(errors)) {
+      res.status(400).render('start', { errors, form: req.body })
+      return
+    }
+
     const name = req.body.name
     const group = new ExpenseGroup(name)
     const id = this.#repository.add(group)
@@ -158,5 +170,15 @@ export class GroupController {
     group.removeExpense(expenseId)
 
     res.redirect(`/groups/${id}`)
+  }
+
+  /**
+   * Tells whether the validator found anything wrong.
+   *
+   * @param {object} errors - The result from FormValidator.
+   * @returns {boolean} True if at least one field is invalid.
+   */
+  #hasErrors(errors) {
+    return Object.keys(errors).length > 0
   }
 }

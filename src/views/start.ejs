@@ -1,3 +1,5 @@
+<% const errors = locals.errors ?? {} %>
+<% const form = locals.form ?? {} %>
 <!DOCTYPE html>
 <html lang="sv">
   <head>
@@ -10,7 +12,10 @@
     <p>Välkommen till Kvitt!</p>
     <form method="post" action="/groups">
       <label for="name">Gruppens namn</label>
-      <input id="name" name="name" />
+      <input id="name" name="name" value="<%= form.name ?? '' %>" />
+      <% if (errors.name) { %>
+        <p class="error"><%= errors.name %></p>
+      <% } %>
       <button>Skapa grupp</button>
     </form>
   </body>
