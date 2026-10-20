@@ -52,9 +52,10 @@ export class App {
     })
     this.#app.post('/groups', (req, res) => this.#controller.createGroup(req, res))
     this.#app.get('/groups/:id', (req, res) => this.#controller.showGroup(req, res))
-    this.#app.post('/groups/:id/members', (req, res) => this.#controller.addMember(req, res))
+    this.#app.post('/groups/:id/members', (req, res) => this.#controller.createMember(req, res))
     this.#app.get('/groups/:id/expenses/new', (req, res) => this.#controller.showExpenseForm(req, res))
-    this.#app.post('/groups/:id/expenses', (req, res) => this.#controller.addExpense(req, res))
+    this.#app.post('/groups/:id/expenses', (req, res) => this.#controller.createExpense(req, res))
+    this.#app.post('/groups/:id/expenses/:expenseId/delete', (req, res) => this.#controller.deleteExpense(req, res))
   }
 
   /**

@@ -21,6 +21,7 @@
               <th>Belopp</th>
               <th>Betalt av</th>
               <th>Delas av</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -30,6 +31,11 @@
                 <td><%= expense.amount %></td>
                 <td><%= expense.paidBy %></td>
                 <td><%= expense.participants %></td>
+                <td>
+                  <form method="post" action="/groups/<%= id %>/expenses/<%= expense.id %>/delete">
+                    <button>Ta bort</button>
+                  </form>
+                </td>
               </tr>
             <% } %>
           </tbody>

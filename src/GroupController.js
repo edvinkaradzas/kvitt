@@ -64,7 +64,7 @@ export class GroupController {
    * @param {Request} req - The request, with the group id in its params and the name in its body.
    * @param {Response} res - The response.
    */
-  addMember(req, res) {
+  createMember(req, res) {
     const id = req.params.id
     const group = this.#repository.findById(id)
     const name = req.body.name
@@ -93,7 +93,7 @@ export class GroupController {
    * @param {Request} req - The request, with the group id in its params and the expense in its body.
    * @param {Response} res - The response.
    */
-  addExpense(req, res) {
+  createExpense(req, res) {
     const id = req.params.id
     const group = this.#repository.findById(id)
     const amount = Number(req.body.amount)
@@ -140,5 +140,14 @@ export class GroupController {
     }
 
     return exactAmounts
+  }
+
+  deleteExpense(req, res) {
+    const id = req.params.id
+    const group = this.#repository.findById(id)
+    const expenseId = Number(req.params.expenseId)
+    group.removeExpense(expenseId)
+
+    res.redirect(`/groups/${id}`)
   }
 }
