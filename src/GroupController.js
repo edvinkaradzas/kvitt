@@ -55,6 +55,7 @@ export class GroupController {
       members: group.getMembers(),
       expenses: this.#presenter.expensesOf(group),
       balances: this.#presenter.balancesOf(group),
+      transfers: this.#presenter.transfersOf(group),
     })
   }
 

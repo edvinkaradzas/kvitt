@@ -40,6 +40,24 @@ export class GroupPresenter {
   }
 
   /**
+   * Describes the payments that settle the group. split-ledger's own Transfer.toString() is in
+   * English, so the sentence is built in the view instead.
+   *
+   * @param {ExpenseGroup} group - The group to settle.
+   * @returns {object[]} One object per payment with from, to and amount, all ready to print.
+   */
+  transfersOf(group) {
+    return group
+      .getSettlementPlan()
+      .getTransfers()
+      .map((transfer) => ({
+        from: transfer.getFrom(),
+        to: transfer.getTo(),
+        amount: this.#formatMoney(transfer.getAmount()),
+      }))
+  }
+
+  /**
    * Formats an amount the Swedish way, for example "3 000,00 kr".
    *
    * @param {Money} money - The amount to format.

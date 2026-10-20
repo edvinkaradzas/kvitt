@@ -10,42 +10,6 @@
     <h1><%= name %></h1>
 
     <section>
-      <h2>Utlägg</h2>
-      <% if (expenses.length === 0) { %>
-        <p>Inga utlägg än.</p>
-      <% } else { %>
-        <table>
-          <thead>
-            <tr>
-              <th>Vad</th>
-              <th>Belopp</th>
-              <th>Betalt av</th>
-              <th>Delas av</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            <% for (const expense of expenses) { %>
-              <tr>
-                <td><%= expense.description %></td>
-                <td><%= expense.amount %></td>
-                <td><%= expense.paidBy %></td>
-                <td><%= expense.participants %></td>
-                <td>
-                  <form method="post" action="/groups/<%= id %>/expenses/<%= expense.id %>/delete">
-                    <button>Ta bort</button>
-                  </form>
-                </td>
-              </tr>
-            <% } %>
-          </tbody>
-        </table>
-      <% } %>
-
-      <a href="/groups/<%= id %>/expenses/new">Nytt utlägg</a>
-    </section>
-
-    <section>
       <h2>Medlemmar</h2>
       <% if (members.length === 0) { %>
         <p>Inga medlemmar än.</p>
@@ -64,7 +28,45 @@
       </form>
     </section>
 
-    <% if (balances.length > 0) { %>
+    <% if (members.length > 0) { %>
+      <section>
+        <h2>Utlägg</h2>
+        <% if (expenses.length === 0) { %>
+          <p>Inga utlägg än.</p>
+        <% } else { %>
+          <table>
+            <thead>
+              <tr>
+                <th>Vad</th>
+                <th>Belopp</th>
+                <th>Betalt av</th>
+                <th>Delas av</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% for (const expense of expenses) { %>
+                <tr>
+                  <td><%= expense.description %></td>
+                  <td><%= expense.amount %></td>
+                  <td><%= expense.paidBy %></td>
+                  <td><%= expense.participants %></td>
+                  <td>
+                    <form method="post" action="/groups/<%= id %>/expenses/<%= expense.id %>/delete">
+                      <button>Ta bort</button>
+                    </form>
+                  </td>
+                </tr>
+              <% } %>
+            </tbody>
+          </table>
+        <% } %>
+
+        <a href="/groups/<%= id %>/expenses/new">Nytt utlägg</a>
+      </section>
+    <% } %>
+
+    <% if (expenses.length > 0) { %>
       <section>
         <h2>Saldon</h2>
         <table>
@@ -78,6 +80,19 @@
             <% } %>
           </tbody>
         </table>
+      </section>
+
+      <section>
+        <h2>Vem betalar vem</h2>
+        <% if (transfers.length === 0) { %>
+          <p>Alla är kvitt.</p>
+        <% } else { %>
+          <ul>
+            <% for (const transfer of transfers) { %>
+              <li><%= transfer.from %> betalar <%= transfer.to %> <%= transfer.amount %></li>
+            <% } %>
+          </ul>
+        <% } %>
       </section>
     <% } %>
   </body>
