@@ -24,6 +24,9 @@
       <form method="post" action="/groups/<%= id %>/members">
         <label for="member-name">Namn</label>
         <input id="member-name" name="name" />
+        <% if (errors.name) { %>
+          <p class="error"><%= errors.name %></p>
+        <% } %>
         <button>Lägg till medlem</button>
       </form>
     </section>

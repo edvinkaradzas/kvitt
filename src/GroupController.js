@@ -87,7 +87,7 @@ export class GroupController {
 
   /**
    * Adds a member to a group and goes back to the group page. The group is changed in place, so it
-   * does not have to be stored again.
+   * does not have to be stored again. An invalid form shows the group page again with the error.
    *
    * @param {Request} req - The request, with the group id in its params and the name in its body.
    * @param {Response} res - The response.
@@ -95,6 +95,14 @@ export class GroupController {
   createMember(req, res) {
     const id = req.params.id
     const group = this.#repository.findById(id)
+    const errors = this.#validator.validateMember(req.body)
+
+    if (this.#hasErrors(errors)) {
+      res.status(400)
+      this.#renderGroup(res, id, group, errors)
+      return
+    }
+
     const name = req.body.name
     group.addMember(name)
 
